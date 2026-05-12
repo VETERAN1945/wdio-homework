@@ -1,0 +1,22 @@
+{
+  "name": "wdio-homework",
+  "version": "1.0.0",
+  "description": "WebdriverIO automation for saucedemo.com",
+  "scripts": {
+    "test": "wdio run wdio.conf.js",
+    "test:login": "wdio run wdio.conf.js --spec test/specs/login.spec.js",
+    "test:logout": "wdio run wdio.conf.js --spec test/specs/logout.spec.js",
+    "test:cart": "wdio run wdio.conf.js --spec test/specs/cart.spec.js",
+    "test:sorting": "wdio run wdio.conf.js --spec test/specs/sorting.spec.js",
+    "test:footer": "wdio run wdio.conf.js --spec test/specs/footer.spec.js",
+    "test:checkout": "wdio run wdio.conf.js --spec test/specs/checkout.spec.js"
+  },
+  "devDependencies": {
+    "@wdio/cli": "^8.0.0",
+    "@wdio/local-runner": "^8.0.0",
+    "@wdio/mocha-framework": "^8.0.0",
+    "@wdio/spec-reporter": "^8.0.0",
+    "chromedriver": "latest",
+    "wdio-chromedriver-service": "^8.0.0"
+  }
+}
