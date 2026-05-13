@@ -2,12 +2,13 @@ const LoginPage = require('../pageobjects/login.page');
 const InventoryPage = require('../pageobjects/inventory.page');
 const CartPage = require('../pageobjects/cart.page');
 const CheckoutPage = require('../pageobjects/checkout.page');
+const { credentials, checkoutData } = require('../fixtures/testData');
 
 describe('Checkout', () => {
 
     beforeEach(async () => {
         await LoginPage.open();
-        await LoginPage.login('standard_user', 'secret_sauce');
+        await LoginPage.login(credentials.validUser.username, credentials.validUser.password);
         await browser.waitUntil(
             async () => (await browser.getUrl()).includes('/inventory.html'),
             { timeout: 10000 }
@@ -27,7 +28,11 @@ describe('Checkout', () => {
         await CartPage.clickCheckout();
         await expect(browser).toHaveUrlContaining('/checkout-step-one.html');
 
-        await CheckoutPage.fillForm('John', 'Doe', '12345');
+        await CheckoutPage.fillForm(
+            checkoutData.firstName,
+            checkoutData.lastName,
+            checkoutData.postalCode
+        );
         await CheckoutPage.clickContinue();
         await expect(browser).toHaveUrlContaining('/checkout-step-two.html');
 

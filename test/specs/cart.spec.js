@@ -1,12 +1,13 @@
 const LoginPage = require('../pageobjects/login.page');
 const InventoryPage = require('../pageobjects/inventory.page');
 const CartPage = require('../pageobjects/cart.page');
+const { credentials } = require('../fixtures/testData');
 
 describe('Cart', () => {
 
     beforeEach(async () => {
         await LoginPage.open();
-        await LoginPage.login('standard_user', 'secret_sauce');
+        await LoginPage.login(credentials.validUser.username, credentials.validUser.password);
         await browser.waitUntil(
             async () => (await browser.getUrl()).includes('/inventory.html'),
             { timeout: 10000 }
@@ -17,7 +18,6 @@ describe('Cart', () => {
         const addedProduct = await InventoryPage.addFirstProductToCart();
         expect(await InventoryPage.getCartCount()).toBe(1);
 
-        // Открываем меню и ждём анимацию
         await InventoryPage.burgerMenu.click();
         await browser.pause(1000);
         await InventoryPage.logoutLink.waitForClickable({ timeout: 5000 });
@@ -28,7 +28,7 @@ describe('Cart', () => {
             { timeout: 5000 }
         );
 
-        await LoginPage.login('standard_user', 'secret_sauce');
+        await LoginPage.login(credentials.validUser.username, credentials.validUser.password);
         await browser.waitUntil(
             async () => (await browser.getUrl()).includes('/inventory.html'),
             { timeout: 10000 }

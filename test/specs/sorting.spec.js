@@ -1,11 +1,12 @@
 const LoginPage = require('../pageobjects/login.page');
 const InventoryPage = require('../pageobjects/inventory.page');
+const { credentials } = require('../fixtures/testData');
 
 describe('Sorting', () => {
 
     before(async () => {
         await LoginPage.open();
-        await LoginPage.login('standard_user', 'secret_sauce');
+        await LoginPage.login(credentials.validUser.username, credentials.validUser.password);
         await browser.waitUntil(
             async () => (await browser.getUrl()).includes('/inventory.html'),
             { timeout: 10000 }
