@@ -1,5 +1,6 @@
 const LoginPage = require('../pageobjects/login.page');
-const { credentials } = require('../fixtures/testData');
+const InventoryPage = require('../pageobjects/inventory.page');
+const { credentials, urls, errorMessages } = require('../fixtures/testData');
 
 describe('Login', () => {
 
@@ -8,8 +9,8 @@ describe('Login', () => {
         await LoginPage.usernameInput.setValue(credentials.validUser.username);
         await LoginPage.passwordInput.setValue(credentials.validUser.password);
         await LoginPage.loginButton.click();
-        await expect(browser).toHaveUrlContaining('/inventory.html');
-        await $('.inventory_item').waitForDisplayed({ timeout: 5000 });
+        await expect(browser).toHaveUrlContaining(urls.inventory);
+        await InventoryPage.firstProduct.waitForDisplayed();
     });
 
     it('TC-2: should show error when logging in with invalid password', async () => {
@@ -17,9 +18,9 @@ describe('Login', () => {
         await LoginPage.usernameInput.setValue(credentials.invalidUser.username);
         await LoginPage.passwordInput.setValue(credentials.invalidUser.password);
         await LoginPage.loginButton.click();
-        await LoginPage.errorMessage.waitForDisplayed({ timeout: 5000 });
+        await LoginPage.errorMessage.waitForDisplayed();
         await expect(LoginPage.errorMessage).toHaveTextContaining(
-            'Username and password do not match any user in this service'
+            errorMessages.invalidPassword
         );
     });
 
@@ -28,9 +29,9 @@ describe('Login', () => {
         await LoginPage.usernameInput.setValue(credentials.lockedUser.username);
         await LoginPage.passwordInput.setValue(credentials.lockedUser.password);
         await LoginPage.loginButton.click();
-        await LoginPage.errorMessage.waitForDisplayed({ timeout: 5000 });
+        await LoginPage.errorMessage.waitForDisplayed();
         await expect(LoginPage.errorMessage).toHaveTextContaining(
-            'Sorry, this user has been locked out'
+            errorMessages.lockedUser
         );
     });
 });

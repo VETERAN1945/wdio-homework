@@ -19,4 +19,18 @@ const checkoutData = {
     postalCode: '12345'
 };
 
-module.exports = { credentials, checkoutData };
+const urls = {
+    inventory: '/inventory.html',
+    cart: '/cart.html',
+    checkoutStepOne: '/checkout-step-one.html',
+    checkoutStepTwo: '/checkout-step-two.html',
+    checkoutComplete: '/checkout-complete.html'
+};
+
+const errorMessages = {
+    invalidPassword: 'Username and password do not match any user in this service',
+    lockedUser: 'Sorry, this user has been locked out',
+    completeHeader: 'Thank you for your order'
+};
+
+module.exports = { credentials, checkoutData, urls, errorMessages };

@@ -28,6 +28,15 @@ class CheckoutPage {
     async getCompleteHeaderText() {
         return this.completeHeader.getText();
     }
+
+     async getOverviewItemNames() {
+        const elements = await $$('.inventory_item_name');
+        const names = [];
+        for (const el of elements) {
+            names.push(await el.getText());
+        }
+        return names;
+    }
 }
 
 module.exports = new CheckoutPage();

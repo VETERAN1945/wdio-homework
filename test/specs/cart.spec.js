@@ -1,17 +1,14 @@
 const LoginPage = require('../pageobjects/login.page');
 const InventoryPage = require('../pageobjects/inventory.page');
 const CartPage = require('../pageobjects/cart.page');
-const { credentials } = require('../fixtures/testData');
+const { credentials, urls } = require('../fixtures/testData');
 
 describe('Cart', () => {
 
     beforeEach(async () => {
         await LoginPage.open();
         await LoginPage.login(credentials.validUser.username, credentials.validUser.password);
-        await browser.waitUntil(
-            async () => (await browser.getUrl()).includes('/inventory.html'),
-            { timeout: 10000 }
-        );
+        await InventoryPage.firstProduct.waitForDisplayed();
     });
 
     it('TC-5: should persist cart after logout and login again', async () => {
@@ -19,23 +16,15 @@ describe('Cart', () => {
         expect(await InventoryPage.getCartCount()).toBe(1);
 
         await InventoryPage.burgerMenu.click();
-        await browser.pause(1000);
-        await InventoryPage.logoutLink.waitForClickable({ timeout: 5000 });
+        await InventoryPage.logoutLink.waitForClickable();
         await InventoryPage.logoutLink.click();
-
-        await browser.waitUntil(
-            async () => !(await browser.getUrl()).includes('/inventory.html'),
-            { timeout: 5000 }
-        );
+        await LoginPage.loginButton.waitForDisplayed();
 
         await LoginPage.login(credentials.validUser.username, credentials.validUser.password);
-        await browser.waitUntil(
-            async () => (await browser.getUrl()).includes('/inventory.html'),
-            { timeout: 10000 }
-        );
+        await InventoryPage.firstProduct.waitForDisplayed();
 
         await InventoryPage.cartButton.click();
-        await expect(browser).toHaveUrlContaining('/cart.html');
+        await expect(browser).toHaveUrlContaining(urls.cart);
         const cartItemNames = await CartPage.getItemNames();
         expect(cartItemNames).toContain(addedProduct);
     });

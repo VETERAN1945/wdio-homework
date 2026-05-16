@@ -5,18 +5,14 @@ class InventoryPage {
     get cartBadge()        { return $('.shopping_cart_badge'); }
     get sortDropdown()     { return $('.product_sort_container'); }
     get addToCartButtons() { return $$('[id^="add-to-cart"]'); }
+    get firstProduct()     { return $('.inventory_item'); }
+    get firstProductName() { return $('.inventory_item_name'); }
 
     async open() { await browser.url('/inventory.html'); }
 
-    async openBurgerMenu() {
-        await this.burgerMenu.click();
-        await $('#logout_sidebar_link').waitForDisplayed({ timeout: 3000 });
-    }
-
     async addFirstProductToCart() {
         const buttons = await this.addToCartButtons;
-        const nameEl = await $('.inventory_item_name');
-        const firstName = await nameEl.getText();
+        const firstName = await this.firstProductName.getText();
         await buttons[0].click();
         return firstName;
     }
@@ -48,4 +44,5 @@ class InventoryPage {
         return prices;
     }
 }
+
 module.exports = new InventoryPage();

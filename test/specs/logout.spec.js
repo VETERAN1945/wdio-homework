@@ -7,23 +7,14 @@ describe('Logout', () => {
     beforeEach(async () => {
         await LoginPage.open();
         await LoginPage.login(credentials.validUser.username, credentials.validUser.password);
-        await browser.waitUntil(
-            async () => (await browser.getUrl()).includes('/inventory.html'),
-            { timeout: 10000 }
-        );
+        await InventoryPage.firstProduct.waitForDisplayed();
     });
 
     it('TC-4: should logout from the account via burger menu', async () => {
         await InventoryPage.burgerMenu.click();
-        await browser.pause(1000);
-        await InventoryPage.logoutLink.waitForClickable({ timeout: 5000 });
+        await InventoryPage.logoutLink.waitForClickable();
         await InventoryPage.logoutLink.click();
-
-        await browser.waitUntil(
-            async () => !(await browser.getUrl()).includes('/inventory.html'),
-            { timeout: 5000 }
-        );
-
+        await LoginPage.loginButton.waitForDisplayed();
         await expect(LoginPage.usernameInput).toHaveValue('');
         await expect(LoginPage.passwordInput).toHaveValue('');
     });
